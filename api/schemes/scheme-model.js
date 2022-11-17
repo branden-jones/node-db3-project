@@ -156,6 +156,10 @@ function add(scheme) { // EXERCISE D
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
+    return db('schemes').insert(scheme)
+    .then(([id]) => {
+      return db('schemes').where('scheme_id', id )
+    })
 }
 
 function addStep(scheme_id, step) { // EXERCISE E
@@ -164,6 +168,7 @@ function addStep(scheme_id, step) { // EXERCISE E
     and resolves to _all the steps_ belonging to the given `scheme_id`,
     including the newly created one.
   */
+ 
 }
 
 module.exports = {
