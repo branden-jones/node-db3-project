@@ -112,7 +112,7 @@ async function findById(scheme_id) { // EXERCISE B
     return result
 }
 
-function findSteps(scheme_id) { // EXERCISE C
+async function findSteps(scheme_id) { // EXERCISE C
   /*
     1C- Build a query in Knex that returns the following data.
     The steps should be sorted by step_number, and the array
@@ -132,7 +132,24 @@ function findSteps(scheme_id) { // EXERCISE C
           "scheme_name": "Get Rich Quick"
         }
       ]
+
+SELECT
+  step_id,
+  step_number,
+  instructions,
+  sc.scheme_name
+from schemes as sc
+left join steps as st
+    on sc.scheme_id = st.scheme_id
+order by step_number;
   */
+  const rows = await db('schemes as sc')
+        .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+        .select('st.step_id', 'st.step_number', 'instructions', 'scheme_name')
+        .where('sc.scheme_id', scheme_id)
+        .orderBy('st.step_number')
+      if (!rows[0].step_number) return [];
+    return rows
 }
 
 function add(scheme) { // EXERCISE D
